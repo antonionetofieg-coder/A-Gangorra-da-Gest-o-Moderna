@@ -1,320 +1,473 @@
-import React, { useState } from 'react';
-import { Scale, Clock, Users, Cpu, TrendingUp, Brain, BookOpen, ChevronDown, ChevronUp, Lightbulb, Shield, Globe, MousePointerClick, ArrowRight } from 'lucide-react';
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dossiê HSM #170 - A Gangorra da Gestão</title>
+    
+    <!-- Tailwind CSS (Estilos) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- React e ReactDOM (O motor do App) -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel (Para traduzir o código JSX no navegador) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-const Infographic = () => {
-  const [activeSection, setActiveSection] = useState(null);
+    <!-- Estilos Adicionais para garantir renderização suave -->
+    <style>
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        /* Animações customizadas */
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 0.05; }
+            50% { opacity: 0.1; }
+        }
+        .animate-pulse-slow {
+            animation: pulse-slow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100">
+    <!-- Ponto de montagem do React -->
+    <div id="root"></div>
 
-  const toggleSection = (index) => {
-    setActiveSection(activeSection === index ? null : index);
-  };
+    <!-- Código da Aplicação -->
+    <script type="text/babel">
+        const { useState } = React;
 
-  const pillars = [
-    {
-      id: 1,
-      title: "Estratégia & Tempo",
-      author: "Alessandra Fu",
-      icon: <Clock size={32} className="text-blue-400" />,
-      stays: "Métricas como chave de controle.",
-      changes: "O fim da 'Era dos Quarters'. Do curto prazo para a construção de legado e capacidade (compounding).",
-      insight: "A influência da visão de longo prazo (inspirada na China) sugere que líderes deixem de ser 'gestores de urgências' para serem 'arquitetos de futuros'. O lucro trimestral não pode destruir a opcionalidade estratégica de longo prazo."
-    },
-    {
-      id: 2,
-      title: "Arquitetura Ética",
-      author: "Anna Flávia Ribeiro",
-      icon: <Shield size={32} className="text-purple-400" />,
-      stays: "A expectativa de comportamento ético.",
-      changes: "Ética deixa de ser uma lista de virtudes (Compliance) para ser um sistema de decisão deliberativo.",
-      insight: "Não vivemos a ausência de ética, mas o excesso de éticas conflitantes (lucro vs. ESG vs. dados). A solução não é um manual, mas conselhos capazes de arbitrar dilemas morais complexos em tempo real."
-    },
-    {
-      id: 3,
-      title: "Arquitetura de Pessoas",
-      author: "Daniela Diniz",
-      icon: <Users size={32} className="text-green-400" />,
-      stays: "Pessoas como o maior ativo das empresas.",
-      changes: "O Índice de Velocidade de Inovação (IVR) torna-se crucial. Inovação depende de segurança psicológica.",
-      insight: "As melhores empresas não inovam 'apesar' das pessoas, mas 'por causa' delas. Líderes devem sair do modo comando-controle para um modelo que desbloqueie a capacidade de inovação na ponta (Frontline)."
-    },
-    {
-      id: 4,
-      title: "Arquitetura Tecnológica",
-      author: "Daniel Geraldeli",
-      icon: <Cpu size={32} className="text-cyan-400" />,
-      stays: "Tecnologia como infraestrutura do negócio.",
-      changes: "Democratização via Low-Code. Todos lidam com tecnologia, não apenas a TI (Citizen Developers).",
-      insight: "O paradoxo do Low-Code: liberdade gera velocidade, mas pode criar 'Shadow IT'. A solução é um framework de governança que permita autonomia com 'guardrails' (limites de segurança) bem definidos."
-    },
-    {
-      id: 5,
-      title: "Arquitetura de Vendas",
-      author: "Regina Magalhães e Jackie Esteves",
-      icon: <TrendingUp size={32} className="text-orange-400" />,
-      stays: "Vendas como foco de receita.",
-      changes: "Com IA, vendas viram instrumento de mudança social/ambiental. Integração total com sustentabilidade.",
-      insight: "A IA permite hiper-personalização que cruza dados de consumo com valores ESG. O vendedor deixa de empurrar produtos para oferecer soluções de impacto. Sustentabilidade não é custo, é alavanca de vendas."
-    }
-  ];
-
-  const entrepreneursRs = [
-    { r: "Resiliência", desc: "A capacidade de suportar adversidades; componente vital." },
-    { r: "Razão", desc: "O propósito profundo que motiva a visão além do lucro." },
-    { r: "Recombinação", desc: "A habilidade única de unir experiências distintas." },
-    { r: "Relacionamentos", desc: "Redes que dão acesso a recursos essenciais." },
-    { r: "Recursos", desc: "O capital (financeiro ou intelectual) necessário." },
-    { r: "Resultados", desc: "Foco obsessivo em alcançar os objetivos finais." }
-  ];
-
-  return (
-    <div className="min-h-screen bg-slate-900 text-slate-100 font-sans selection:bg-orange-500 selection:text-white pb-20">
-      
-      {/* Header */}
-      <header className="relative bg-gradient-to-r from-blue-950 to-slate-950 py-24 px-6 border-b border-white/5 overflow-hidden">
-        <div className="absolute top-0 right-0 p-10 opacity-5 pointer-events-none animate-pulse duration-1000">
-          <Scale size={500} />
-        </div>
-        <div className="max-w-5xl mx-auto relative z-10 text-center md:text-left">
-          <div className="inline-flex items-center gap-2 bg-orange-600/20 text-orange-400 border border-orange-500/30 font-bold px-4 py-1.5 rounded-full text-xs mb-6 tracking-widest uppercase">
-            <BookOpen size={14} /> Dossiê Especial #170
-          </div>
-          <h1 className="text-5xl md:text-7xl font-extrabold mb-6 leading-tight tracking-tight">
-            A Gangorra da <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-white">
-              Gestão Moderna
-            </span>
-          </h1>
-          <p className="text-xl md:text-2xl text-slate-300 max-w-2xl font-light leading-relaxed">
-            Navegue pela transição entre a Era do Conhecimento e a <strong className="text-white font-semibold">Era da Sabedoria</strong>. Descubra o que permanece sólido e o que precisa evoluir.
-          </p>
-        </div>
-      </header>
-
-      {/* Intro Context Block */}
-      <section className="max-w-4xl mx-auto py-16 px-6">
-        <div className="flex flex-col gap-6 text-center">
-          <h2 className="text-2xl font-semibold text-white">O Contexto da Mudança</h2>
-          <p className="text-slate-400 text-lg leading-relaxed">
-            Estamos vivendo um momento de ruptura comparável ao de 2.000 anos atrás. 
-            Deepak Chopra e Stephen Covey já alertavam: sobreviverão não os mais fortes, mas os mais sábios. 
-            Nesta edição, exploramos como a <strong>consciência coletiva</strong> está redefinindo os pilares corporativos.
-            Abaixo, você encontrará uma curadoria dos 5 temas essenciais.
-          </p>
-          <div className="w-24 h-1 bg-gradient-to-r from-transparent via-orange-500 to-transparent mx-auto mt-4 rounded-full"></div>
-        </div>
-      </section>
-
-      {/* Main Pillars - The Seesaw */}
-      <section className="max-w-5xl mx-auto px-6 mb-24">
-        <div className="text-center mb-12">
-          <h3 className="text-3xl font-bold mb-4 text-white">
-            1. Os 5 Pilares da Transformação
-          </h3>
-          <p className="text-slate-400 max-w-2xl mx-auto mb-6">
-            Para cada área crítica da gestão, existe um equilíbrio delicado entre tradição e inovação.
-            Analise abaixo o que manter ("O que fica") e onde inovar ("O que muda").
-          </p>
-          
-          <div className="inline-flex items-center gap-2 bg-slate-800 text-orange-400 px-4 py-2 rounded-lg text-sm border border-slate-700 animate-bounce">
-            <MousePointerClick size={16} />
-            <span>Interativo: Clique nos cards para revelar o Insight Estratégico</span>
-          </div>
-        </div>
-        
-        <div className="grid gap-6">
-          {pillars.map((pillar, index) => (
-            <div 
-              key={pillar.id}
-              className={`group bg-slate-800 rounded-2xl border transition-all duration-300 cursor-pointer overflow-hidden relative ${activeSection === index ? 'border-orange-500 shadow-2xl shadow-orange-900/20 bg-slate-800' : 'border-slate-700 hover:border-slate-600 hover:bg-slate-750'}`}
-              onClick={() => toggleSection(index)}
+        // --- Componentes de Ícones (Recriados para funcionar sem importação externa) ---
+        const IconBase = ({ children, size = 24, className = "" }) => (
+            <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                width={size} 
+                height={size} 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                className={className}
             >
-              {/* Card Header */}
-              <div className="p-6 md:p-8 flex flex-col md:flex-row gap-6 items-start md:items-center relative z-10">
-                <div className={`p-4 rounded-2xl border transition-all duration-500 ${activeSection === index ? 'bg-orange-500 border-orange-400 text-white' : 'bg-slate-900 border-slate-700 text-slate-300 group-hover:scale-105'}`}>
-                  {React.cloneElement(pillar.icon, { className: activeSection === index ? "text-white" : pillar.icon.props.className })}
-                </div>
+                {children}
+            </svg>
+        );
+
+        const Scale = (props) => (
+            <IconBase {...props}>
+                <path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z" />
+                <path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z" />
+                <path d="M7 21h10" />
+                <path d="M12 3v18" />
+                <path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2" />
+            </IconBase>
+        );
+        const Clock = (props) => (
+            <IconBase {...props}>
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+            </IconBase>
+        );
+        const Users = (props) => (
+            <IconBase {...props}>
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </IconBase>
+        );
+        const Cpu = (props) => (
+            <IconBase {...props}>
+                <rect width="16" height="16" x="4" y="4" rx="2" />
+                <rect width="6" height="6" x="9" y="9" rx="1" />
+                <path d="M15 2v2" /><path d="M15 20v2" /><path d="M2 15h2" /><path d="M2 9h2" />
+                <path d="M20 15h2" /><path d="M20 9h2" /><path d="M9 2v2" /><path d="M9 20v2" />
+            </IconBase>
+        );
+        const TrendingUp = (props) => (
+            <IconBase {...props}>
+                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+                <polyline points="16 7 22 7 22 13" />
+            </IconBase>
+        );
+        const Brain = (props) => (
+            <IconBase {...props}>
+                <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z" />
+                <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z" />
+            </IconBase>
+        );
+        const BookOpen = (props) => (
+            <IconBase {...props}>
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+            </IconBase>
+        );
+        const ChevronDown = (props) => (
+            <IconBase {...props}>
+                <path d="m6 9 6 6 6-6" />
+            </IconBase>
+        );
+        const ChevronUp = (props) => (
+            <IconBase {...props}>
+                <path d="m18 15-6-6-6 6" />
+            </IconBase>
+        );
+        const Lightbulb = (props) => (
+            <IconBase {...props}>
+                <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-1 1.5-2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" />
+                <path d="M9 18h6" />
+                <path d="M10 22h4" />
+            </IconBase>
+        );
+        const Shield = (props) => (
+            <IconBase {...props}>
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
+            </IconBase>
+        );
+        const Globe = (props) => (
+            <IconBase {...props}>
+                <circle cx="12" cy="12" r="10" />
+                <line x1="2" x2="22" y1="12" y2="12" />
+                <path d="a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10" />
+            </IconBase>
+        );
+        const MousePointerClick = (props) => (
+            <IconBase {...props}>
+                <path d="M14 4.1 12 6" />
+                <path d="m5.1 8-2.9-.8" />
+                <path d="m6 12-1.9 2" />
+                <path d="M7.2 2.2 8 5.1" />
+                <path d="M9.037 9.69a.498.498 0 0 1 .653-.653l11 4.5a.5.5 0 0 1-.074.949l-4.349 1.041a1 1 0 0 0-.74.739l-1.04 4.35a.5.5 0 0 1-.95.074z" />
+            </IconBase>
+        );
+        const ArrowRight = (props) => (
+            <IconBase {...props}>
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+            </IconBase>
+        );
+
+        // --- Componente Principal ---
+        const Infographic = () => {
+            const [activeSection, setActiveSection] = useState(null);
+
+            const toggleSection = (index) => {
+                setActiveSection(activeSection === index ? null : index);
+            };
+
+            const pillars = [
+                {
+                    id: 1,
+                    title: "Estratégia & Tempo",
+                    author: "Alessandra Fu",
+                    icon: <Clock size={32} className="text-blue-400" />,
+                    stays: "Métricas como chave de controle.",
+                    changes: "O fim da 'Era dos Quarters'. Do curto prazo para a construção de legado e capacidade (compounding).",
+                    insight: "A influência da visão de longo prazo (inspirada na China) sugere que líderes deixem de ser 'gestores de urgências' para serem 'arquitetos de futuros'. O lucro trimestral não pode destruir a opcionalidade estratégica de longo prazo."
+                },
+                {
+                    id: 2,
+                    title: "Arquitetura Ética",
+                    author: "Anna Flávia Ribeiro",
+                    icon: <Shield size={32} className="text-purple-400" />,
+                    stays: "A expectativa de comportamento ético.",
+                    changes: "Ética deixa de ser uma lista de virtudes (Compliance) para ser um sistema de decisão deliberativo.",
+                    insight: "Não vivemos a ausência de ética, mas o excesso de éticas conflitantes (lucro vs. ESG vs. dados). A solução não é um manual, mas conselhos capazes de arbitrar dilemas morais complexos em tempo real."
+                },
+                {
+                    id: 3,
+                    title: "Arquitetura de Pessoas",
+                    author: "Daniela Diniz",
+                    icon: <Users size={32} className="text-green-400" />,
+                    stays: "Pessoas como o maior ativo das empresas.",
+                    changes: "O Índice de Velocidade de Inovação (IVR) torna-se crucial. Inovação depende de segurança psicológica.",
+                    insight: "As melhores empresas não inovam 'apesar' das pessoas, mas 'por causa' delas. Líderes devem sair do modo comando-controle para um modelo que desbloqueie a capacidade de inovação na ponta (Frontline)."
+                },
+                {
+                    id: 4,
+                    title: "Arquitetura Tecnológica",
+                    author: "Daniel Geraldeli",
+                    icon: <Cpu size={32} className="text-cyan-400" />,
+                    stays: "Tecnologia como infraestrutura do negócio.",
+                    changes: "Democratização via Low-Code. Todos lidam com tecnologia, não apenas a TI (Citizen Developers).",
+                    insight: "O paradoxo do Low-Code: liberdade gera velocidade, mas pode criar 'Shadow IT'. A solução é um framework de governança que permita autonomia com 'guardrails' (limites de segurança) bem definidos."
+                },
+                {
+                    id: 5,
+                    title: "Arquitetura de Vendas",
+                    author: "Regina Magalhães e Jackie Esteves",
+                    icon: <TrendingUp size={32} className="text-orange-400" />,
+                    stays: "Vendas como foco de receita.",
+                    changes: "Com IA, vendas viram instrumento de mudança social/ambiental. Integração total com sustentabilidade.",
+                    insight: "A IA permite hiper-personalização que cruza dados de consumo com valores ESG. O vendedor deixa de empurrar produtos para oferecer soluções de impacto. Sustentabilidade não é custo, é alavanca de vendas."
+                }
+            ];
+
+            const entrepreneursRs = [
+                { r: "Resiliência", desc: "A capacidade de suportar adversidades; componente vital." },
+                { r: "Razão", desc: "O propósito profundo que motiva a visão além do lucro." },
+                { r: "Recombinação", desc: "A habilidade única de unir experiências distintas." },
+                { r: "Relacionamentos", desc: "Redes que dão acesso a recursos essenciais." },
+                { r: "Recursos", desc: "O capital (financeiro ou intelectual) necessário." },
+                { r: "Resultados", desc: "Foco obsessivo em alcançar os objetivos finais." }
+            ];
+
+            return (
+                <div className="min-h-screen bg-slate-900 text-slate-100 font-sans selection:bg-orange-500 selection:text-white pb-20">
                 
-                <div className="flex-1 w-full">
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-4">
-                    <h4 className="text-2xl font-bold text-white group-hover:text-orange-400 transition-colors">{pillar.title}</h4>
-                    <span className="text-xs font-mono text-slate-500 uppercase tracking-wide bg-slate-900/50 px-2 py-1 rounded">{pillar.author}</span>
-                  </div>
-                  
-                  {/* The Seesaw Visual */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-slate-900/80 p-4 rounded-xl border-l-4 border-slate-600 backdrop-blur-sm">
-                      <span className="flex items-center gap-2 text-xs text-slate-400 uppercase font-bold mb-2">
-                        <div className="w-2 h-2 rounded-full bg-slate-500"></div> O que Fica
-                      </span>
-                      <p className="text-sm text-slate-300 font-medium">{pillar.stays}</p>
+                {/* Header */}
+                <header className="relative bg-gradient-to-r from-blue-950 to-slate-950 py-24 px-6 border-b border-white/5 overflow-hidden">
+                    <div className="absolute top-0 right-0 p-10 opacity-5 pointer-events-none animate-pulse-slow">
+                        <Scale size={500} />
                     </div>
-                    <div className="bg-blue-950/30 p-4 rounded-xl border-l-4 border-blue-500 backdrop-blur-sm">
-                      <span className="flex items-center gap-2 text-xs text-blue-400 uppercase font-bold mb-2">
-                        <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div> O que Muda
-                      </span>
-                      <p className="text-sm text-blue-100 font-medium">{pillar.changes}</p>
+                    <div className="max-w-5xl mx-auto relative z-10 text-center md:text-left">
+                    <div className="inline-flex items-center gap-2 bg-orange-600/20 text-orange-400 border border-orange-500/30 font-bold px-4 py-1.5 rounded-full text-xs mb-6 tracking-widest uppercase">
+                        <BookOpen size={14} /> Dossiê Especial #170
                     </div>
-                  </div>
+                    <h1 className="text-5xl md:text-7xl font-extrabold mb-6 leading-tight tracking-tight">
+                        A Gangorra da <br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-white">
+                        Gestão Moderna
+                        </span>
+                    </h1>
+                    <p className="text-xl md:text-2xl text-slate-300 max-w-2xl font-light leading-relaxed">
+                        Navegue pela transição entre a Era do Conhecimento e a <strong className="text-white font-semibold">Era da Sabedoria</strong>. Descubra o que permanece sólido e o que precisa evoluir.
+                    </p>
+                    </div>
+                </header>
+
+                {/* Intro Context Block */}
+                <section className="max-w-4xl mx-auto py-16 px-6">
+                    <div className="flex flex-col gap-6 text-center">
+                    <h2 className="text-2xl font-semibold text-white">O Contexto da Mudança</h2>
+                    <p className="text-slate-400 text-lg leading-relaxed">
+                        Estamos vivendo um momento de ruptura comparável ao de 2.000 anos atrás. 
+                        Deepak Chopra e Stephen Covey já alertavam: sobreviverão não os mais fortes, mas os mais sábios. 
+                        Nesta edição, exploramos como a <strong>consciência coletiva</strong> está redefinindo os pilares corporativos.
+                        Abaixo, você encontrará uma curadoria dos 5 temas essenciais.
+                    </p>
+                    <div className="w-24 h-1 bg-gradient-to-r from-transparent via-orange-500 to-transparent mx-auto mt-4 rounded-full"></div>
+                    </div>
+                </section>
+
+                {/* Main Pillars - The Seesaw */}
+                <section className="max-w-5xl mx-auto px-6 mb-24">
+                    <div className="text-center mb-12">
+                    <h3 className="text-3xl font-bold mb-4 text-white">
+                        1. Os 5 Pilares da Transformação
+                    </h3>
+                    <p className="text-slate-400 max-w-2xl mx-auto mb-6">
+                        Para cada área crítica da gestão, existe um equilíbrio delicado entre tradição e inovação.
+                        Analise abaixo o que manter ("O que fica") e onde inovar ("O que muda").
+                    </p>
+                    
+                    <div className="inline-flex items-center gap-2 bg-slate-800 text-orange-400 px-4 py-2 rounded-lg text-sm border border-slate-700 animate-bounce">
+                        <MousePointerClick size={16} />
+                        <span>Interativo: Clique nos cards para revelar o Insight Estratégico</span>
+                    </div>
+                    </div>
+                    
+                    <div className="grid gap-6">
+                    {pillars.map((pillar, index) => (
+                        <div 
+                        key={pillar.id}
+                        className={`group bg-slate-800 rounded-2xl border transition-all duration-300 cursor-pointer overflow-hidden relative ${activeSection === index ? 'border-orange-500 shadow-2xl shadow-orange-900/20 bg-slate-800' : 'border-slate-700 hover:border-slate-600 hover:bg-slate-750'}`}
+                        onClick={() => toggleSection(index)}
+                        >
+                        {/* Card Header */}
+                        <div className="p-6 md:p-8 flex flex-col md:flex-row gap-6 items-start md:items-center relative z-10">
+                            <div className={`p-4 rounded-2xl border transition-all duration-500 ${activeSection === index ? 'bg-orange-500 border-orange-400 text-white' : 'bg-slate-900 border-slate-700 text-slate-300 group-hover:scale-105'}`}>
+                             {/* Clona o ícone e injeta props */}
+                             {React.cloneElement(pillar.icon, { className: activeSection === index ? "text-white" : pillar.icon.props.className })}
+                            </div>
+                            
+                            <div className="flex-1 w-full">
+                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-4">
+                                <h4 className="text-2xl font-bold text-white group-hover:text-orange-400 transition-colors">{pillar.title}</h4>
+                                <span className="text-xs font-mono text-slate-500 uppercase tracking-wide bg-slate-900/50 px-2 py-1 rounded">{pillar.author}</span>
+                            </div>
+                            
+                            {/* The Seesaw Visual */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="bg-slate-900/80 p-4 rounded-xl border-l-4 border-slate-600 backdrop-blur-sm">
+                                <span className="flex items-center gap-2 text-xs text-slate-400 uppercase font-bold mb-2">
+                                    <div className="w-2 h-2 rounded-full bg-slate-500"></div> O que Fica
+                                </span>
+                                <p className="text-sm text-slate-300 font-medium">{pillar.stays}</p>
+                                </div>
+                                <div className="bg-blue-950/30 p-4 rounded-xl border-l-4 border-blue-500 backdrop-blur-sm">
+                                <span className="flex items-center gap-2 text-xs text-blue-400 uppercase font-bold mb-2">
+                                    <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div> O que Muda
+                                </span>
+                                <p className="text-sm text-blue-100 font-medium">{pillar.changes}</p>
+                                </div>
+                            </div>
+                            </div>
+
+                            <div className="absolute top-6 right-6 md:relative md:top-auto md:right-auto self-start md:self-center">
+                            {activeSection === index ? 
+                                <ChevronUp className="text-orange-500 bg-orange-500/10 rounded-full p-1" size={32} /> : 
+                                <div className="flex flex-col items-center gap-1 group-hover:translate-y-1 transition-transform">
+                                <span className="text-[10px] text-slate-500 uppercase font-bold hidden md:block">Ver Insight</span>
+                                <ChevronDown className="text-slate-500 group-hover:text-white" size={24} />
+                                </div>
+                            }
+                            </div>
+                        </div>
+
+                        {/* Expandable Insight */}
+                        <div className={`bg-slate-900 border-t border-slate-700/50 overflow-hidden transition-all duration-500 ease-in-out ${activeSection === index ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                            <div className="p-6 md:p-8">
+                            <div className="flex gap-4 items-start">
+                                <div className="bg-yellow-500/20 p-2 rounded-lg shrink-0">
+                                <Lightbulb className="text-yellow-400" size={24} />
+                                </div>
+                                <div>
+                                <h5 className="text-lg font-bold text-yellow-100 mb-2">Análise Estratégica do Dossiê</h5>
+                                <p className="text-slate-300 leading-relaxed text-base border-l-2 border-yellow-500/30 pl-4">{pillar.insight}</p>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    ))}
+                    </div>
+                </section>
+
+                {/* Entrepreneurship Section */}
+                <section className="bg-slate-100 py-24 px-6 text-slate-900 relative">
+                    <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-slate-900 to-slate-100"></div>
+                    
+                    <div className="max-w-6xl mx-auto relative z-10">
+                    {/* Section Intro */}
+                    <div className="text-center md:text-left mb-12 max-w-3xl">
+                        <h3 className="text-3xl font-bold text-slate-900 mb-4">2. Empreendedorismo Imparável</h3>
+                        <p className="text-slate-600 text-lg leading-relaxed">
+                        Muitos acreditam que empreender depende apenas de capital e grandes investidores ("empreendedorismo de palco"). 
+                        No entanto, a professora <strong>Lori Rosenkopf (Wharton)</strong> propõe uma visão mais robusta: 
+                        os empreendedores que realmente perduram dominam 6 dimensões fundamentais, e não apenas o dinheiro.
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div className="md:col-span-1 bg-gradient-to-br from-blue-600 to-blue-800 text-white p-8 rounded-2xl shadow-xl flex flex-col justify-between">
+                        <div>
+                            <div className="bg-white/20 w-fit px-3 py-1 rounded-full text-xs font-bold mb-6">MENTALIDADE</div>
+                            <h4 className="text-3xl font-bold mb-4">Além dos Recursos</h4>
+                            <p className="text-blue-100 leading-relaxed">
+                            O verdadeiro "fosso" (vantagem competitiva) não vem apenas do dinheiro, mas da combinação única de resiliência, propósito e conexões.
+                            </p>
+                        </div>
+                        <div className="mt-8 pt-8 border-t border-white/20">
+                            <p className="text-xs opacity-70">Fonte: Recorte de Aprofundamento / HSM Management</p>
+                        </div>
+                        </div>
+
+                        <div className="md:col-span-2 grid grid-cols-2 sm:grid-cols-3 gap-4">
+                        {entrepreneursRs.map((item, idx) => (
+                            <div key={idx} className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+                            <div className="flex justify-between items-start mb-3">
+                                <span className="text-4xl font-black text-slate-100 group-hover:text-blue-100 transition-colors select-none">{idx + 1}</span>
+                                <div className="bg-blue-50 text-blue-600 font-bold text-xs px-2 py-1 rounded uppercase">R{idx + 1}</div>
+                            </div>
+                            <h5 className="font-bold text-lg text-slate-800 mb-2 group-hover:text-blue-700">{item.r}</h5>
+                            <p className="text-sm text-slate-500 leading-snug">{item.desc}</p>
+                            </div>
+                        ))}
+                        </div>
+                    </div>
+                    </div>
+                </section>
+
+                {/* Artificial Wisdom Highlight */}
+                <section className="py-24 px-6 relative overflow-hidden bg-slate-950">
+                    {/* Abstract Background Elements */}
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-blue-900/20 via-slate-950 to-slate-950"></div>
+                    <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
+                    
+                    <div className="max-w-5xl mx-auto relative z-10">
+                    
+                    {/* Section Intro */}
+                    <div className="flex flex-col md:flex-row gap-12 items-center mb-16">
+                        <div className="md:w-1/2">
+                        <div className="inline-flex items-center gap-2 text-cyan-400 mb-6 bg-cyan-950/30 px-3 py-1 rounded-full border border-cyan-500/20">
+                            <Globe size={16} />
+                            <span className="uppercase tracking-widest text-xs font-bold">Fronteira Futura</span>
+                        </div>
+                        <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+                            3. Sabedoria Artificial
+                        </h2>
+                        <p className="text-slate-400 text-lg leading-relaxed mb-6">
+                            À medida que a IA avança, o diferencial humano deixa de ser apenas a inteligência (capacidade de processar) e passa a ser a sabedoria (capacidade de integrar e julgar).
+                        </p>
+                        <p className="text-slate-400 text-lg leading-relaxed">
+                            Segundo o antropólogo cognitivo <strong>Chico Araújo</strong>, precisamos sair da passividade de deixar a máquina pensar <em>por nós</em> e começar a pensar <em>com ela</em>.
+                        </p>
+                        </div>
+                        
+                        <div className="md:w-1/2 bg-slate-900 p-8 rounded-2xl border border-slate-800 relative">
+                        <Brain size={64} className="text-slate-800 absolute top-4 right-4 opacity-50" />
+                        <h4 className="text-white font-bold text-xl mb-4">O Upgrade Civilizacional</h4>
+                        <ul className="space-y-4">
+                            <li className="flex gap-3 text-slate-300">
+                            <ArrowRight className="text-orange-500 shrink-0 mt-1" size={18} />
+                            <span><strong>Inteligência:</strong> Busca eficiência. Pergunta "Como?".</span>
+                            </li>
+                            <li className="flex gap-3 text-slate-300">
+                            <ArrowRight className="text-cyan-500 shrink-0 mt-1" size={18} />
+                            <span><strong>Sabedoria:</strong> Busca adequação. Pergunta "Por quê?".</span>
+                            </li>
+                        </ul>
+                        </div>
+                    </div>
+                    
+                    <div className="grid md:grid-cols-3 gap-6">
+                        <div className="bg-slate-900/50 p-6 rounded-xl border border-white/5 hover:bg-slate-800/80 transition-colors">
+                        <div className="text-cyan-400 mb-4 text-5xl font-thin opacity-50">01</div>
+                        <h4 className="text-xl font-bold text-white mb-3">Integração Semântica</h4>
+                        <p className="text-slate-400 text-sm leading-relaxed">Reunir múltiplas fontes de informação em um quadro coerente, não apenas processar dados isolados.</p>
+                        </div>
+                        
+                        <div className="bg-gradient-to-b from-slate-800 to-slate-900 p-6 rounded-xl border border-orange-500/30 hover:border-orange-500/60 transition-colors relative shadow-lg shadow-orange-900/10">
+                        <div className="absolute top-4 right-4 bg-orange-500 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">Essencial</div>
+                        <div className="text-orange-500 mb-4 text-5xl font-thin opacity-80">02</div>
+                        <h4 className="text-xl font-bold text-white mb-3">Deliberação Prudencial</h4>
+                        <p className="text-slate-300 text-sm leading-relaxed">Avaliar implicações éticas e sociais das ações. É a capacidade de julgamento moral aplicada à tecnologia.</p>
+                        </div>
+                        
+                        <div className="bg-slate-900/50 p-6 rounded-xl border border-white/5 hover:bg-slate-800/80 transition-colors">
+                        <div className="text-cyan-400 mb-4 text-5xl font-thin opacity-50">03</div>
+                        <h4 className="text-xl font-bold text-white mb-3">Reflexividade Adaptativa</h4>
+                        <p className="text-slate-400 text-sm leading-relaxed">Aprender com o erro em tempo real, ajustando princípios à luz das consequências. Uma metacognição relacional.</p>
+                        </div>
+                    </div>
+                    </div>
+                </section>
+
+                {/* Footer */}
+                <footer className="border-t border-slate-800 py-12 px-6 bg-slate-950">
+                    <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div className="text-center md:text-left">
+                        <h5 className="font-bold text-white text-lg mb-1">Dossiê HSM Management #170</h5>
+                        <p className="text-slate-500 text-sm">Edição Especial inspirada no HSM+2025 • Nov/Dez 2025</p>
+                    </div>
+                    
+                    <div className="flex flex-col md:flex-row gap-6 text-sm text-slate-500 items-center">
+                        <div className="flex items-center gap-2">
+                        <BookOpen size={16} />
+                        <span>Conteúdo baseado nos artigos de Rita McGrath, José Salibi Neto, Philip Kotler e outros.</span>
+                        </div>
+                    </div>
+                    </div>
+                </footer>
                 </div>
+            );
+        };
 
-                <div className="absolute top-6 right-6 md:relative md:top-auto md:right-auto self-start md:self-center">
-                   {activeSection === index ? 
-                    <ChevronUp className="text-orange-500 bg-orange-500/10 rounded-full p-1" size={32} /> : 
-                    <div className="flex flex-col items-center gap-1 group-hover:translate-y-1 transition-transform">
-                      <span className="text-[10px] text-slate-500 uppercase font-bold hidden md:block">Ver Insight</span>
-                      <ChevronDown className="text-slate-500 group-hover:text-white" size={24} />
-                    </div>
-                   }
-                </div>
-              </div>
-
-              {/* Expandable Insight */}
-              <div className={`bg-slate-900 border-t border-slate-700/50 overflow-hidden transition-all duration-500 ease-in-out ${activeSection === index ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                <div className="p-6 md:p-8">
-                  <div className="flex gap-4 items-start">
-                    <div className="bg-yellow-500/20 p-2 rounded-lg shrink-0">
-                      <Lightbulb className="text-yellow-400" size={24} />
-                    </div>
-                    <div>
-                      <h5 className="text-lg font-bold text-yellow-100 mb-2">Análise Estratégica do Dossiê</h5>
-                      <p className="text-slate-300 leading-relaxed text-base border-l-2 border-yellow-500/30 pl-4">{pillar.insight}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Entrepreneurship Section */}
-      <section className="bg-slate-100 py-24 px-6 text-slate-900 relative">
-         <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-slate-900 to-slate-100"></div>
-         
-        <div className="max-w-6xl mx-auto relative z-10">
-          {/* Section Intro */}
-          <div className="text-center md:text-left mb-12 max-w-3xl">
-            <h3 className="text-3xl font-bold text-slate-900 mb-4">2. Empreendedorismo Imparável</h3>
-            <p className="text-slate-600 text-lg leading-relaxed">
-              Muitos acreditam que empreender depende apenas de capital e grandes investidores ("empreendedorismo de palco"). 
-              No entanto, a professora <strong>Lori Rosenkopf (Wharton)</strong> propõe uma visão mais robusta: 
-              os empreendedores que realmente perduram dominam 6 dimensões fundamentais, e não apenas o dinheiro.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="md:col-span-1 bg-gradient-to-br from-blue-600 to-blue-800 text-white p-8 rounded-2xl shadow-xl flex flex-col justify-between">
-              <div>
-                <div className="bg-white/20 w-fit px-3 py-1 rounded-full text-xs font-bold mb-6">MENTALIDADE</div>
-                <h4 className="text-3xl font-bold mb-4">Além dos Recursos</h4>
-                <p className="text-blue-100 leading-relaxed">
-                  O verdadeiro "fosso" (vantagem competitiva) não vem apenas do dinheiro, mas da combinação única de resiliência, propósito e conexões.
-                </p>
-              </div>
-              <div className="mt-8 pt-8 border-t border-white/20">
-                 <p className="text-xs opacity-70">Fonte: Recorte de Aprofundamento / HSM Management</p>
-              </div>
-            </div>
-
-            <div className="md:col-span-2 grid grid-cols-2 sm:grid-cols-3 gap-4">
-              {entrepreneursRs.map((item, idx) => (
-                <div key={idx} className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
-                  <div className="flex justify-between items-start mb-3">
-                    <span className="text-4xl font-black text-slate-100 group-hover:text-blue-100 transition-colors select-none">{idx + 1}</span>
-                    <div className="bg-blue-50 text-blue-600 font-bold text-xs px-2 py-1 rounded uppercase">R{idx + 1}</div>
-                  </div>
-                  <h5 className="font-bold text-lg text-slate-800 mb-2 group-hover:text-blue-700">{item.r}</h5>
-                  <p className="text-sm text-slate-500 leading-snug">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Artificial Wisdom Highlight */}
-      <section className="py-24 px-6 relative overflow-hidden bg-slate-950">
-        {/* Abstract Background Elements */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-blue-900/20 via-slate-950 to-slate-950"></div>
-        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
-        
-        <div className="max-w-5xl mx-auto relative z-10">
-          
-          {/* Section Intro */}
-          <div className="flex flex-col md:flex-row gap-12 items-center mb-16">
-            <div className="md:w-1/2">
-              <div className="inline-flex items-center gap-2 text-cyan-400 mb-6 bg-cyan-950/30 px-3 py-1 rounded-full border border-cyan-500/20">
-                <Globe size={16} />
-                <span className="uppercase tracking-widest text-xs font-bold">Fronteira Futura</span>
-              </div>
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                3. Sabedoria Artificial
-              </h2>
-              <p className="text-slate-400 text-lg leading-relaxed mb-6">
-                À medida que a IA avança, o diferencial humano deixa de ser apenas a inteligência (capacidade de processar) e passa a ser a sabedoria (capacidade de integrar e julgar).
-              </p>
-              <p className="text-slate-400 text-lg leading-relaxed">
-                Segundo o antropólogo cognitivo <strong>Chico Araújo</strong>, precisamos sair da passividade de deixar a máquina pensar <em>por nós</em> e começar a pensar <em>com ela</em>.
-              </p>
-            </div>
-            
-            <div className="md:w-1/2 bg-slate-900 p-8 rounded-2xl border border-slate-800 relative">
-               <Brain size={64} className="text-slate-800 absolute top-4 right-4 opacity-50" />
-               <h4 className="text-white font-bold text-xl mb-4">O Upgrade Civilizacional</h4>
-               <ul className="space-y-4">
-                 <li className="flex gap-3 text-slate-300">
-                   <ArrowRight className="text-orange-500 shrink-0 mt-1" size={18} />
-                   <span><strong>Inteligência:</strong> Busca eficiência. Pergunta "Como?".</span>
-                 </li>
-                 <li className="flex gap-3 text-slate-300">
-                   <ArrowRight className="text-cyan-500 shrink-0 mt-1" size={18} />
-                   <span><strong>Sabedoria:</strong> Busca adequação. Pergunta "Por quê?".</span>
-                 </li>
-               </ul>
-            </div>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="bg-slate-900/50 p-6 rounded-xl border border-white/5 hover:bg-slate-800/80 transition-colors">
-              <div className="text-cyan-400 mb-4 text-5xl font-thin opacity-50">01</div>
-              <h4 className="text-xl font-bold text-white mb-3">Integração Semântica</h4>
-              <p className="text-slate-400 text-sm leading-relaxed">Reunir múltiplas fontes de informação em um quadro coerente, não apenas processar dados isolados.</p>
-            </div>
-            
-            <div className="bg-gradient-to-b from-slate-800 to-slate-900 p-6 rounded-xl border border-orange-500/30 hover:border-orange-500/60 transition-colors relative shadow-lg shadow-orange-900/10">
-              <div className="absolute top-4 right-4 bg-orange-500 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">Essencial</div>
-              <div className="text-orange-500 mb-4 text-5xl font-thin opacity-80">02</div>
-              <h4 className="text-xl font-bold text-white mb-3">Deliberação Prudencial</h4>
-              <p className="text-slate-300 text-sm leading-relaxed">Avaliar implicações éticas e sociais das ações. É a capacidade de julgamento moral aplicada à tecnologia.</p>
-            </div>
-            
-            <div className="bg-slate-900/50 p-6 rounded-xl border border-white/5 hover:bg-slate-800/80 transition-colors">
-              <div className="text-cyan-400 mb-4 text-5xl font-thin opacity-50">03</div>
-              <h4 className="text-xl font-bold text-white mb-3">Reflexividade Adaptativa</h4>
-              <p className="text-slate-400 text-sm leading-relaxed">Aprender com o erro em tempo real, ajustando princípios à luz das consequências. Uma metacognição relacional.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="border-t border-slate-800 py-12 px-6 bg-slate-950">
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="text-center md:text-left">
-            <h5 className="font-bold text-white text-lg mb-1">Dossiê HSM Management #170</h5>
-            <p className="text-slate-500 text-sm">Edição Especial inspirada no HSM+2025 • Nov/Dez 2025</p>
-          </div>
-          
-          <div className="flex flex-col md:flex-row gap-6 text-sm text-slate-500 items-center">
-            <div className="flex items-center gap-2">
-              <BookOpen size={16} />
-              <span>Conteúdo baseado nos artigos de Rita McGrath, José Salibi Neto, Philip Kotler e outros.</span>
-            </div>
-            <a href="#" className="text-orange-500 hover:text-orange-400 transition-colors font-semibold">Ler Dossiê Completo →</a>
-          </div>
-        </div>
-      </footer>
-    </div>
-  );
-};
-
-export default Infographic;
+        // Renderiza o App no elemento com id 'root'
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<Infographic />);
+    </script>
+</body>
+</html>
